@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker</title>
+  <style>
+    :root {
+      --dark-bg: #2f3e46;
+      --primary: #354f52;
+      --secondary: #52796f;
+      --text-light: #ffffff;
+      --text-dark: #000000;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+     
+      color: var(--text-light);
+    }
+
+    header {
+      text-align: center;
+      padding: 1.5rem;
+      background-color: var(--primary);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: var(--text-light);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background-color: var(--secondary);
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-light);
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid var(--primary);
+      border-radius: 5px;
+      background-color: var(--dark-bg);
+      color: var(--text-light);
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 0.8rem;
+      background-color: var(--primary);
+      color: var(--text-light);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .btn:hover {
+      background-color: var(--secondary);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+
+    table th, table td {
+      padding: 1rem;
+      text-align: left;
+    }
+
+    table th {
+      background-color: var(--primary);
+      color: var(--text-light);
+    }
+
+    table tr:nth-child(even) {
+      background-color: var(--secondary);
+    }
+
+    table tr:nth-child(odd) {
+      background-color: var(--primary);
+    }
+
+    .delete-btn {
+      background-color: #e63946;
+      color: var(--text-light);
+      border: none;
+      border-radius: 5px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      background-color: #d62828;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Expense Tracker</h1>
+  </header>
+  <div class="container">
+    <div class="form-group">
+      <label for="expense-category">Category</label>
+      <select id="expense-category">
+        <option value="yo"> </option>
+        <option value="Food">Food</option>
+        <option value="Rent">Rent</option>
+        <option value="Traveling">Traveling</option>
+        <option value="Miscellaneous">Miscellaneous</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="expense-amount">Amount</label>
+      <input type="number" id="expense-amount" placeholder="Enter amount">
+    </div>
+    <div class="form-group">
+      <label for="expense-date">Date</label>
+      <input type="date" id="expense-date">
+    </div>
+    <button class="btn" id="add-expense">Add Expense</button>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody id="expenses">
+        <!-- Expense items will appear here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const addExpenseButton = document.getElementById('add-expense');
+    const expensesContainer = document.getElementById('expenses');
+
+    addExpenseButton.addEventListener('click', () => {
+      const category = document.getElementById('expense-category').value;
+      const amount = document.getElementById('expense-amount').value;
+      const date = document.getElementById('expense-date').value;
+
+      if (category && amount && date) {
+        const expenseRow = document.createElement('tr');
+        expenseRow.innerHTML = `
+          <td>${category}</td>
+          <td>${parseFloat(amount).toFixed(2)}</td>
+          <td>${date}</td>
+          <td><button class="delete-btn">Delete</button></td>
+        `;
+        
+        expenseRow.querySelector('.delete-btn').addEventListener('click', () => {
+          expenseRow.remove();
+        });
+
+        expensesContainer.appendChild(expenseRow);
+
+        document.getElementById('expense-amount').value = '';
+        document.getElementById('expense-date').value = '';
+      } else {
+        alert('Please fill out all fields.');
+      }
+    });
+  </script>
+</body>
+</html>
